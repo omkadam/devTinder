@@ -2,7 +2,7 @@
 
 // how to create an express router?
 const express = require('express')
-const validateSignUpData = require('../utils/validation')
+const {validateSignUpData} = require('../utils/validation')
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -52,6 +52,14 @@ authRouter.post('/login', async (req,res) => {
     } catch (error) {
         res.status(400).send("Error while login")
     }
+})
+
+authRouter.post('/logout', async (req,res) => {
+    // here we are simply destroying the cookie
+    res.cookie("token", null, {
+        expires: new Date(Date.now())
+    })
+    res.send("Logged out success")
 })
 
 
